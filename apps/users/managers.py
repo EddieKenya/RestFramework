@@ -11,16 +11,16 @@ class CustomUserManager(BaseUserManager):
         try: 
             validate_email(email)
         except ValidationError:
-            raise ValueError(_('Provide a valid email address!'))
+            raise ValidationError(_('Provide a valid email address!'))
         
-    def create_user(self, username, firstname, lastname, email, password, **extra_fields):
+    def create_user(self, username, first_name, last_name, email, password, **extra_fields):
         if not username:
             raise ValueError(_("Provide a  username!"))
         
-        if not firstname:
+        if not first_name:
             raise ValueError(_("Provide a  firstname!"))
         
-        if not lastname:
+        if not last_name:
             raise ValueError(_("Provide a  lastname!"))
         
         if email:
@@ -30,7 +30,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_('email address required!'))
         
         user = self.model(
-            username=username, first_name=firstname, last_name=lastname, email=email, **extra_fields
+            username=username, first_name=first_name, last_name=last_name, email=email, **extra_fields
         )
 
         user.set_password (password)
