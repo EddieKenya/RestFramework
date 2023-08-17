@@ -25,6 +25,7 @@ User= get_user_model()
     
 class CreateUser(APIView):
     permission_classes = [permissions.AllowAny]
+
     def post(self, request):
         data = request.data
         serializers = RegisterUserSerializer(data=data)
@@ -33,4 +34,11 @@ class CreateUser(APIView):
         user = serializers.save()
         return Response(serializers.data, status=status.HTTP_201_CREATED)
         
-        
+class RetrieveUser(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        serializer = RegisterUserSerializer(user)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
