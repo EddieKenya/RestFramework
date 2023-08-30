@@ -7,20 +7,7 @@ from django.contrib.auth import get_user_model
 
 User= get_user_model()
 
-# Create your views here.
 
-# class CreateUser(APIView):
-#     permission_classes = [permissions.AllowAny]
-#     def post(self, request):
-#         username= request.data['username']
-#         first_name= request.data['first_name']
-#         last_name= request.data['last_name']
-#         email= request.data['email']
-#         password= request.data['password']
-#         user = User.objects.create_user(username, first_name, last_name, email, password)
-#         user = RegisterUserSerializer(user)
-
-#         return Response(user.data, status.HTTP_201_CREATED)
         
     
 class CreateUser(APIView):
