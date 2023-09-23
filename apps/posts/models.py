@@ -7,7 +7,7 @@ User = get_user_model()
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     pics = models.ImageField(upload_to='pictures', blank=True, null=True)
-    bio = models.TextField()
+    bio = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
     likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
