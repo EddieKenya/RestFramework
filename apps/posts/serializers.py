@@ -2,18 +2,23 @@ from rest_framework import serializers
 from .models import Post
 
 class PostSerializer(serializers.ModelSerializer):
-    likes_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = '__all__'  # Include 'likes_count' in the fields
-
-    def get_likes_count(self, obj):
-        return obj.likes.count()
+        fields = '__all__'  
+        extra_kwargs = {'author': {'read_only': True}}
 
     def create(self, validated_data):
-        request = self.context.get('request')
-        author = request.user
+        user = self.context.get('request', {}).user
 
-        post = Post.objects.create(author=author, **validated_data)
-        return post
+        if user is None:
+            raise serializers.ValidationError("User not available in the request context.")
+
+        # Use get method with a default value to avoid KeyError
+        data = Post.objects.create(
+            author=user,
+            bio=validated_data.get('bio', ''),
+            pics=validated_data.get('file', None)
+        )
+        return data
+
