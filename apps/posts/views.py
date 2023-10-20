@@ -7,11 +7,12 @@ from.permissions import IsAuthorOrReadOnly
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class PostList(ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 
 
@@ -22,18 +23,23 @@ class PostRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
 
 
 
-
 class CreatePost(APIView):
-    permission_classes = [IsAuthenticated]
+    # ... (other code remains unchanged)
 
-    def post(self, request):
-        serializer = PostSerializer(data=request.data, context={'request': request})
+    def post(self, request, format=None):
+        user = self.request.user
+        print(user)
+        print(request.data)
+        data = request.data.copy()
+        data['author'] = user.pkid  # Assuming 'author' is an ForeignKey field
+        serializer = PostSerializer(data=data, context={'request': request, 'author': user})
 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     
 
 class LikePost(APIView):
