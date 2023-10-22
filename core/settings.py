@@ -198,7 +198,7 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Add your frontend's domain here
     "http://example.com",
-    "https://web-production-09e2.up.railway.app/"
+    "https://web-production-09e2.up.railway.app"
     # ... other allowed origins ...
 ]
 
