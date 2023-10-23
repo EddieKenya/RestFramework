@@ -199,6 +199,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Add your frontend's domain here
     "http://example.com",
     "https://web-production-09e2.up.railway.app"
+    "https://653646f4e7d32429825463ca--fastidious-flan-9d5f9b.netlify.app"
     # ... other allowed origins ...
 ]
 
